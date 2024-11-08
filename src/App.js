@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Home from './Components/Home';
+import CarList from './Components/CarList';
+import './Styles/App.css';
+import ShowroomList from "./Components/ShowroomList";
+import LogIn from "./Components/LogIn";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    return (
+        <Router>
+            <div className="App">
+                <main>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={<Home isAuthenticated={isAuthenticated} />}
+                        />
+                        <Route path="/cars" element={<CarList/>}/>
+                        <Route path="/show-room-list" element={<ShowroomList/>}/>
+                        <Route
+                            path="/login"
+                            element={<LogIn setAuthenticated={setIsAuthenticated} />}
+                        />
+                    </Routes>
+                </main>
+            </div>
+        </Router>
+    );
 }
 
 export default App;

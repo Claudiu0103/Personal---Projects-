@@ -1,0 +1,55 @@
+.home {
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.home-title {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+}
+
+.home-content {
+    padding: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.button-group {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    justify-items: center;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px; /* Ajustează padding-ul pentru a micșora butoanele */
+    font-size: 1em;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    height: 55px;
+    width: 250px; /* Limitează lățimea butoanelor */
+    max-width: 300px; /* Asigură-te că lățimea nu este prea mare */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    color: black;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 0.9em;
+}

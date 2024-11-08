@@ -1,0 +1,12 @@
+body {
+    background-color: #ffffff; /* Fundal alb */
+    margin: 0; /* Elimină marginea implicită */
+    padding: 0; /* Elimină padding-ul implicit */
+    font-family: Arial, sans-serif; /* Setează un font pentru pagină */
+}
+
+.App {
+    text-align: center;
+    /*padding: 20px;*/
+}
+

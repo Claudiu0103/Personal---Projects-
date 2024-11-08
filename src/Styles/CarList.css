@@ -1,0 +1,75 @@
+.car-list-container {
+    padding: 40px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+.car-list-header {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+.button-container {
+    align-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.buttonAddCar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px; /* Reduce colțurile rotunjite pentru un aspect mai normal */
+    padding: 8px 16px; /* Spațiu mai mic pentru a face butonul mai compact */
+    font-size: 0.9em; /* Micșorează dimensiunea textului */
+    cursor: pointer; /* Schimbă cursorul la pointer */
+    margin-bottom: 10px;
+    transition: background-color 0.3s; /* Adaugă o tranziție lină pentru hover */
+}
+
+.buttonAddCar:hover {
+    background-color: #0056b3; /* Schimbă culoarea la hover */
+}
+
+.buttonHome {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttonHome:hover {
+    background-color: #218838;
+}
+.car-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.car-image {
+    flex: 0 0 150px;
+    margin-right: 20px;
+}
+
+.car-image img {
+    width: 100%; /* Imaginea ocupă întreaga lățime a containerului */
+    border-radius: 5px; /* Opțional, rotunjește colțurile imaginii */
+}
+
+.car-details {
+    flex: 1; /* Detaliile ocupă restul spațiului disponibil */
+    text-align: left;
+}
