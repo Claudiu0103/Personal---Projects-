@@ -34,20 +34,6 @@
     background-color: #0056b3; /* Schimbă culoarea la hover */
 }
 
-.buttonHome {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.buttonHome:hover {
-    background-color: #218838;
-}
 .car-item {
     display: flex;
     align-items: center;

@@ -1,0 +1,6 @@
+.button-container {
+    display: flex;
+    gap: 10px; /* Adaugă un spațiu de 10px între butoane */
+    justify-content: center;
+    margin-bottom: 20px;
+}

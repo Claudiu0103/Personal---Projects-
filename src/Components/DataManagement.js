@@ -1,13 +1,13 @@
 import React from 'react';
 
 
-function ShowroomList() {
+function DataManagement() {
     return (
         <div>
-            <h2>Lista Showroom-urilor</h2>
-            <p>Aici poți găsi showroom-urile disponibile.</p>
+            <h2>Date Personale</h2>
+            <p>Aici poți găsi date despre contul tau</p>
         </div>
     );
 }
 
-export default ShowroomList;
+export default DataManagement;

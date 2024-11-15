@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../Styles/Home.css';
 
-function Home({isAuthenticated}) {
+function Home({isAuthenticated,userRole}) {
     const navigate = useNavigate();
 
     const handleGoToCarList = () => {
@@ -16,6 +16,18 @@ function Home({isAuthenticated}) {
     }
     const handleGoToDataManagement = () =>{
         navigate('/data-management');
+    }
+    const handleGoToCarHistory= () =>{
+        navigate('/carHistory');
+    }
+    const handleGoToManagementShowrooms= () =>{
+        navigate('/management-showrooms');
+    }
+    const handleGoToManagementClients= () =>{
+        navigate('/management-clients');
+    }
+    const handleGoToManagementCars= () =>{
+        navigate('/management-cars');
     }
     return (
         <div className="home">
@@ -31,15 +43,31 @@ function Home({isAuthenticated}) {
                 <div className="button-group">
                     <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                     <button onClick={handleGoToShowRoomList}>Vezi Showroom uri</button>
-                    {isAuthenticated ? (
-                        <button onClick={handleGoToDataManagement}>
-                            Gestionare Date Personale
-                        </button>
-                    ) : (
-                        <button onClick={handleGoToLogIn}>
-                            Creare Cont/Autentificare
-                        </button>
+                    {isAuthenticated && userRole === 'USER' && (
+                        <>
+                            <button onClick={handleGoToDataManagement}>Vezi Date Personale</button>
+                            <button onClick={handleGoToCarHistory}>Istoric Mașini</button>
+                        </>
                     )}
+                    {!isAuthenticated && (
+                        <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
+                    )}
+                    {isAuthenticated && userRole === 'ADMIN' && (
+                        <>
+                            <button onClick={handleGoToManagementShowrooms}>Management Showroom-uri</button>
+                            <button onClick={handleGoToManagementClients}>Management Clienți</button>
+                            <button onClick={handleGoToManagementCars}>Management Mașini</button>
+                        </>
+                    )}
+                    {/*{isAuthenticated ? (*/}
+                    {/*    <button onClick={handleGoToDataManagement}>*/}
+                    {/*        Gestionare Date Personale*/}
+                    {/*    </button>*/}
+                    {/*) : (*/}
+                    {/*    <button onClick={handleGoToLogIn}>*/}
+                    {/*        Creare Cont/Autentificare*/}
+                    {/*    </button>*/}
+                    {/*)}*/}
                 </div>
             </main>
             <footer>
