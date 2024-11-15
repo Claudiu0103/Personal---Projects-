@@ -12,7 +12,8 @@ public class UserConfig {
     CommandLineRunner commandLineRunnerUser2(UserRepository repository) {
         return args -> {
             User Claudiu = new User(1,"claudiu30","1234567c","Client");
-            repository.saveAll(List.of(Claudiu));
+            User Ana = new User(2,"ana29","1234567a","Client");
+            repository.saveAll(List.of(Claudiu,Ana));
         };
     }
 }

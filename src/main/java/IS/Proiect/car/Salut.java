@@ -15,9 +15,9 @@ import java.util.List;
 public class Salut {
 
 
-    @GetMapping("/")
+    @GetMapping("/salut")
     public String hello(HttpServletRequest request) {
-        return "salut frate" + request.getSession().getId();
+        return "salut frate " + request.getSession().getId();
     }
 
 }
