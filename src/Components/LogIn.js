@@ -13,16 +13,18 @@ function LogIn({setAuthenticated,setUserRole}) {
         fetch('http://localhost:8080/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             },
-            body: new URLSearchParams({username, password}),
+            body: JSON.stringify({username, password}),
             credentials: 'include'
         })
             .then(response => {
                 if (response.ok) {
                     navigate('/');
                     setAuthenticated(true);
+                    localStorage.setItem('isAuthenticated', 'true');
                     response.json().then(data => {
+                        localStorage.setItem('userRole', data.userRole);
                         setUserRole(data.userRole);
                     });
                 } else {
