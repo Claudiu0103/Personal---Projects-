@@ -42,6 +42,7 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
     const handleGoToCreateAccount = () => {
         navigate('/create-account');
     };
+
     return (
         <div className="home">
             <div className="home-title">
@@ -54,7 +55,6 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
                 <div className="button-group">
                     <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                     <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
-                    <button onClick={handleGoToCreateAccount}>Creaza Cont</button>
                     {!isAuthenticated && (
                         <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
                     )}

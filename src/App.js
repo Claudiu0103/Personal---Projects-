@@ -48,7 +48,7 @@ function App() {
                         <Route path="/management-showrooms" element={<ShowroomManagement/>}/>
                         <Route path="/management-clients" element={<ClientManagement/>}/>
                         <Route path="/management-cars" element={<CarManagement/>}/>
-                        <Route path="/create-account" element={<CreateAccount/>}/>
+                        <Route path="/create-account" element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}/>}/>
                         {/*<Route*/}
                         {/*    path="/login"*/}
                         {/*    element={<LogIn setAuthenticated={setIsAuthenticated} />}*/}

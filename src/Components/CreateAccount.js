@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
-function Register() {
+function Register({setAuthenticated,setUserRole}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
     const handleRegister = (event) => {
         event.preventDefault();
 
@@ -16,9 +18,11 @@ function Register() {
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Utilizator înregistrat cu succes!');
-                    setUsername(''); // Resetează câmpul de nume utilizator
-                    setPassword(''); // Resetează câmpul de parolă
+                    navigate('/');
+                    setAuthenticated(true);
+                    localStorage.setItem('isAuthenticated', 'true');
+                    localStorage.setItem('userRole', "Client");
+                    setUserRole("Client");
                 } else {
                     alert('A apărut o problemă la înregistrare.');
                 }

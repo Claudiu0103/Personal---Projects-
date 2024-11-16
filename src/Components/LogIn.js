@@ -7,7 +7,9 @@ function LogIn({setAuthenticated,setUserRole}) {
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
-
+    const handleGoToCreateAccount = () => {
+        navigate('/create-account');
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         fetch('http://localhost:8080/login', {
@@ -24,8 +26,8 @@ function LogIn({setAuthenticated,setUserRole}) {
                     setAuthenticated(true);
                     localStorage.setItem('isAuthenticated', 'true');
                     response.json().then(data => {
-                        localStorage.setItem('userRole', data.userRole);
-                        setUserRole(data.userRole);
+                        localStorage.setItem('userRole', data.Type);
+                        setUserRole(data.Type);
                     });
                 } else {
                     throw new Error('Eroare la autentificare');
@@ -66,8 +68,12 @@ function LogIn({setAuthenticated,setUserRole}) {
                     </div>
                     <button type="submit" className="login-button">Autentificare</button>
                 </form>
+                <div className="create-account-section">
+                    <p>Nu ai cont?</p>
+                    <button onClick={handleGoToCreateAccount} className="create-account-button">Creare Cont</button>
+                </div>
             </div>
         );
-    }
+}
 
-    export default LogIn;
+export default LogIn;

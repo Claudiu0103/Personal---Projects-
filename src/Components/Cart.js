@@ -3,8 +3,8 @@ import React from 'react';
 function Cart() {
     return (
         <div>
-            <h2>Autentificare</h2>
-            <p>Introdu aici datele necesare pentru autentificare</p>
+            <h2>Cos</h2>
+            <p>Mai jos poti vedea masinile din cosul tau</p>
         </div>
     );
 }
