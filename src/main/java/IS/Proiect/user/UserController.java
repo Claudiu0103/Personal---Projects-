@@ -34,10 +34,10 @@ public class UserController {
         return (CsrfToken) request.getAttribute("_csrf");
     }
 
-    @PostMapping
-    public void registerNewUser(@RequestBody User user) {
-        userService.addNewUser(user);
-    }
+//    @PostMapping
+//    public void registerNewUser(@RequestBody User user) {
+//        userService.addNewUser(user);
+//    }
 
     @DeleteMapping(path = "{idUser}")
     public void deleteUser(@PathVariable("idUser") Integer id) {

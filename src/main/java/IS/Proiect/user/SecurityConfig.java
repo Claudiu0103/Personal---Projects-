@@ -43,11 +43,12 @@ public class SecurityConfig {
 //                .build();
         return http
                 .csrf(customizer -> customizer.disable())
-                .authorizeRequests(requests -> requests.requestMatchers("/api/car","/api/user").permitAll().anyRequest().authenticated())
-                .formLogin(form -> form.defaultSuccessUrl("/api/user", true))
+                .authorizeRequests(requests -> requests.requestMatchers("/api/car","/api/user","/login","api/register").permitAll().anyRequest().authenticated())
+                .formLogin(form -> form.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .cors(Customizer.withDefaults())
+                .userDetailsService(userDetailsService)
                 .build();
     }
 
@@ -72,11 +73,11 @@ public class SecurityConfig {
 //                .withDefaultPasswordEncoder().username("ana").password("1234").roles("ADMIN").build();
 //        return new InMemoryUserDetailsManager(user1, user2);
 //    }
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
-        authProvider.setUserDetailsService(userDetailsService);
-        return authProvider;
-    }
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//        authProvider.setUserDetailsService(userDetailsService);
+//        return authProvider;
+//    }
 }
