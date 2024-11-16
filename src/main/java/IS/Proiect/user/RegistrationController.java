@@ -21,7 +21,6 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody LoginRequest loginRequest) {
-        // Apelează metoda registerUser pentru a înregistra utilizatorul
         userService.registerUser(loginRequest.getUsername(), loginRequest.getPassword());
         return ResponseEntity.ok("Utilizator înregistrat cu succes!");
     }

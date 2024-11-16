@@ -26,7 +26,7 @@ public class UserService {
 
 
     public void registerUser(String username, String rawPassword) {
-        String encryptedPassword = passwordEncoder.encode(rawPassword); // Criptează parola
+        String encryptedPassword = passwordEncoder.encode(rawPassword);
         User user = new User(username, encryptedPassword,"Client");
         userRepository.save(user);
     }
@@ -40,19 +40,17 @@ public class UserService {
     }
     public User authenticate(String username, String password) {
         User user = userRepository.findByUsername(username);
-        System.out.println(username);
-        System.out.println(user);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return user; // Returnează utilizatorul dacă autentificarea este reușită
+            return user;
         } else {
-            return null; // Returnează null dacă autentificarea eșuează
+            return null;
         }
     }
     @Transactional
     public void updateUser(Integer id,String password) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User with id " + id + "doesn't exists"));
         if (password != null && !Objects.equals(user.getPassword(), password)) {
-            if (user.getPassword().length() < 5) {
+            if (user.getPassword().length() < 3) {
                 throw new IllegalStateException("Invalid Password");
             }
             user.setPassword(password);
