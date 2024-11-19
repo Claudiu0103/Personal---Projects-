@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import '../Styles/LogIn.css';
 
-function LogIn({setAuthenticated,setUserRole}) {
+function LogIn({setAuthenticated,setUserRole,setIdUser}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,7 +27,10 @@ function LogIn({setAuthenticated,setUserRole}) {
                     localStorage.setItem('isAuthenticated', 'true');
                     response.json().then(data => {
                         localStorage.setItem('userRole', data.Type);
+                        localStorage.setItem('idUser', data.ID);
                         setUserRole(data.Type);
+                        setIdUser(data.ID);
+                        console.log(data.ID);
                     });
                 } else {
                     throw new Error('Eroare la autentificare');
@@ -45,7 +48,7 @@ function LogIn({setAuthenticated,setUserRole}) {
                 <p>Introdu datele necesare pentru a te autentifica:</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="username">Nume utilizator sau Email:</label>
+                        <label htmlFor="username">Nume utilizator:</label>
                         <input
                             type="text"
                             id="username"

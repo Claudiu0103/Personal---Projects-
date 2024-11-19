@@ -39,9 +39,6 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
     const handleGoToManagementCars = () => {
         navigate('/management-cars');
     };
-    const handleGoToCreateAccount = () => {
-        navigate('/create-account');
-    };
 
     return (
         <div className="home">
