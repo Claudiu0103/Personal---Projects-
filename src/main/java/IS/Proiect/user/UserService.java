@@ -30,6 +30,11 @@ public class UserService {
         User user = new User(username, encryptedPassword,"Client");
         userRepository.save(user);
     }
+    public User registerUser2(String username, String rawPassword) {
+        String encryptedPassword = passwordEncoder.encode(rawPassword);
+        User user = new User(username, encryptedPassword, "Client");
+        return userRepository.save(user);  // Return the saved User
+    }
 
     public void deleteUser(Integer id) {
         boolean exists = userRepository.existsById(id);

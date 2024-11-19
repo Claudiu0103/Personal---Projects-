@@ -38,7 +38,7 @@ public class CarService {
     }
 
     @Transactional
-    public void updateStudent(Integer id, Integer kilometers, Integer price) {
+    public void updateCar(Integer id, Integer kilometers, Integer price) {
         Car car = carRepository.findById(id).orElseThrow(() -> new IllegalStateException("Car with id " + id + " doesn't exists"));
         if (kilometers != null && !Objects.equals(car.getKilometers(), kilometers)) {
             if (car.getPrice() <= 0) {

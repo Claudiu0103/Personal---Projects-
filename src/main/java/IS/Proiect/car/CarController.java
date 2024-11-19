@@ -34,7 +34,7 @@ public class CarController {
 
     @PutMapping(path = "{idCar}")
     public void updateCar(@PathVariable("idCar") Integer id, @RequestParam(required = false) Integer kilometers, @RequestParam(required = false) Integer price) {
-        carService.updateStudent(id, kilometers, price);
+        carService.updateCar(id, kilometers, price);
 
     }
 }

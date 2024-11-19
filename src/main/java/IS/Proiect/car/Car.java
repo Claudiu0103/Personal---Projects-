@@ -23,6 +23,7 @@ public class Car {
     private Integer price;
     private String color;
     private Integer idShowroom;
+//    private String imageUrl;
 
     public Car() {
 
@@ -126,12 +127,20 @@ public class Car {
         this.idShowroom = idShowroom;
     }
 
+//    public String getImageUrl() {
+//        return imageUrl;
+//    }
+//
+//    public void setImageUrl(String imageUrl) {
+//        this.imageUrl = imageUrl;
+//    }
+
     @Override
     public String toString() {
         return "Car{" +
                 "idCar=" + idCar +
                 ", kilometers=" + kilometers +
-                ", releaseDate=" + releaseDate +
+                ", releaseDate='" + releaseDate + '\'' +
                 ", model='" + model + '\'' +
                 ", vehicleType='" + vehicleType + '\'' +
                 ", price=" + price +

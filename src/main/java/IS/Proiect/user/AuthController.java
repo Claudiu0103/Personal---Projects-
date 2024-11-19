@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/login")
@@ -25,10 +27,13 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         User user = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
         if (user != null) {
-            return ResponseEntity.ok(Collections.singletonMap("Type", user.getType()));
+            Map<String, Object> response = new HashMap<>();
+            response.put("Type", user.getType());
+            response.put("ID", user.getIdUser());
+
+            return ResponseEntity.ok(response);
         } else {
-            // Returnează JSON chiar și pentru o eroare de autentificare
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "Eroare la autentificare"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Autentificare eșuată");
         }
     }
 
