@@ -2,6 +2,7 @@ package IS.Proiect.client;
 
 import IS.Proiect.car.Car;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,12 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @GetMapping
-    public List<Client> getClients() {
-        return clientService.getClients();
+    @GetMapping(path = "{idUser}")
+    public Client getClient(@PathVariable int idUser) {
+        return clientService.getClient(idUser);
     }
 
-    @PostMapping
+    @PostMapping(path = "{idClient}")
     public void registerNewCar(@RequestBody Client client) {
         clientService.addNewClient(client);
     }
@@ -33,9 +34,18 @@ public class ClientController {
         clientService.deleteClient(id);
     }
 
-    @PutMapping(path = "{idClient}")
-    public void updateCar(@PathVariable("idClient") Integer id, @RequestParam(required = false) String firstName) {
-        clientService.updateClient(id, firstName);
-
+    @PutMapping(path ="{idUser}")
+    public ResponseEntity<Client> updateClient(@PathVariable Integer idUser, @RequestBody Client updatedClient) {
+        Client client = clientService.getClient(idUser);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        client.setFirstName(updatedClient.getFirstName());
+        client.setLastName(updatedClient.getLastName());
+        client.setEmail(updatedClient.getEmail());
+        client.setAddress(updatedClient.getAddress());
+        client.setPhone(updatedClient.getPhone());
+        clientService.save(client);
+        return ResponseEntity.ok(client);
     }
 }
