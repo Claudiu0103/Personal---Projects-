@@ -12,7 +12,7 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
         setUserRole('');
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('userRole');
-        navigate('/'); // Redirecționează utilizatorul la pagina de start sau la o altă pagină
+        navigate('/');
     };
 
     const handleGoToCarList = () => {
