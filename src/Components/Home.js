@@ -51,15 +51,15 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
                 <p>Vizitează secțiunea noastră de oferte pentru a găsi mașina perfectă pentru tine!</p>
                 <div className="button-group">
                     <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
-                    <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                     {!isAuthenticated && (
-                        <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
-                    )}
-                    {isAuthenticated && (
-                        <button onClick={handleLogout}>Logout</button>
+                        <>
+                        <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
+                            <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
+                        </>
                     )}
                     {isAuthenticated && userRole === 'Client' && (
                         <>
+                            <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                             <button onClick={handleGoToDataManagement}>Vezi Date Personale</button>
                             <button onClick={handleGoToCarHistory}>Istoric Mașini</button>
                         </>
@@ -70,6 +70,9 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
                             <button onClick={handleGoToManagementClients}>Management Clienți</button>
                             <button onClick={handleGoToManagementCars}>Management Mașini</button>
                         </>
+                    )}
+                    {isAuthenticated && (
+                        <button onClick={handleLogout}>Logout</button>
                     )}
                 </div>
             </main>

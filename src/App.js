@@ -1,4 +1,3 @@
-// import React, {useState} from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './Components/Home';
 import CarList from './Components/CarList';
@@ -44,14 +43,18 @@ function App() {
                                                        setAuthenticated={setIsAuthenticated}
                                                        setUserRole={setUserRole}/>}/>
                         <Route path="/cars" element={<CarList/>}/>
-                        <Route path="/show-room-list" element={<ShowroomList/>}/>
-                        <Route path="/login" element={<LogIn setAuthenticated={setIsAuthenticated} setUserRole={setUserRole} setIdUser={setIdUser}/>}/>
+                        <Route path="/show-room-list" element={<ShowroomList userRole={userRole}/>}/>
+                        <Route path="/login"
+                               element={<LogIn setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
+                                               setIdUser={setIdUser}/>}/>
                         <Route path="/data-management" element={<DataManagement idUser={idUser}/>}/>
                         <Route path="/carHistory" element={<CarHistory/>}/>
-                        <Route path="/management-showrooms" element={<ShowroomManagement/>}/>
+                        <Route path="/management-showrooms" element={<ShowroomManagement userRole={userRole}/>}/>
                         <Route path="/management-clients" element={<ClientManagement/>}/>
                         <Route path="/management-cars" element={<CarManagement/>}/>
-                        <Route path="/create-account" element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole} setIdUser={setIdUser}/>}/>
+                        <Route path="/create-account"
+                               element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
+                                                       setIdUser={setIdUser}/>}/>
                         {/*<Route*/}
                         {/*    path="/login"*/}
                         {/*    element={<LogIn setAuthenticated={setIsAuthenticated} />}*/}
