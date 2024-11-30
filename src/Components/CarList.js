@@ -13,11 +13,6 @@ const carImages = [car1, car2, car3, car4, car5];
 function CarList() {
     const [cars, setCars] = useState([]);
 
-    const handleButtonClick = () => {
-        console.log("Add Car button clicked");
-    };
-
-
     useEffect(() => {
         fetch("http://localhost:8080/api/car")
             .then(response => {
@@ -40,9 +35,6 @@ function CarList() {
     return (
         <div>
             <h2>Mașinile Disponibile</h2>
-            <div className="button-container">
-                <button className="buttonAddCar" onClick={handleButtonClick}>Add Car</button>
-            </div>
             <div className="car-list">
                 {cars.length > 0 ? (
                     cars.map((car, index) => (
