@@ -18,7 +18,14 @@ public class ClientController {
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
-
+    @GetMapping
+    public ResponseEntity<List<Client>> getAllClients() {
+        List<Client> clients = clientService.getClients();
+        if (clients.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(clients);
+    }
     @GetMapping(path = "{idUser}")
     public Client getClient(@PathVariable int idUser) {
         return clientService.getClient(idUser);

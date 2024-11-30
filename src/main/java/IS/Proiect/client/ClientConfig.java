@@ -19,8 +19,10 @@ public class ClientConfig {
     CommandLineRunner commandLineRunner3(ClientRepository repository, UserRepository userRepository) {
         return args -> {
             User user = userRepository.findById(3).orElseThrow(() -> new IllegalStateException("User not found"));
+            User user2 = userRepository.findById(4).orElseThrow(() -> new IllegalStateException("User not found"));
             Client vlad  = new Client(1, "Vlad", "Popescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com",user);
-            repository.saveAll(List.of(vlad));
+            Client dan  = new Client(2, "Dan", "Stefanescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com",user2);
+            repository.saveAll(List.of(vlad,dan));
         };
     }
 }
