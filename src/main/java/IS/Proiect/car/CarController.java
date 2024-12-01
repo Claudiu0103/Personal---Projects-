@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/car")
-@CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
 public class CarController {
 
     private final CarService carService;
