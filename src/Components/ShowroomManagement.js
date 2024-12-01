@@ -10,11 +10,13 @@ function ShowroomList({userRole}) {
     const [updatedLocation, setUpdatedLocation] = useState("");
     const [updatedPhoneNumber, setUpdatedPhoneNumber] = useState("");
     const [updatedEmail, setUpdatedEmail] = useState("");
+    const [updatedAdminId, setUpdatedAdminId] = useState("");
 
     const [newName, setNewName] = useState("");
     const [newLocation, setNewLocation] = useState("");
     const [newPhoneNumber, setNewPhoneNumber] = useState("");
     const [newEmail, setNewEmail] = useState("");
+    const [newAdminId, setNewAdminId] = useState("");
     const [showAddForm, setShowAddForm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -46,7 +48,7 @@ function ShowroomList({userRole}) {
 
     const handleAddShowroom = () => {
         // Trimitere cerere POST către server
-        fetch("http://localhost:8080/api/showroom", {
+        fetch(`http://localhost:8080/api/showroom?adminId=${newAdminId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -72,6 +74,7 @@ function ShowroomList({userRole}) {
                 setNewLocation("");
                 setNewPhoneNumber("");
                 setNewEmail("");
+                setNewAdminId("");
             })
             .catch(error => console.error("Eroare:", error));
     };
@@ -83,33 +86,14 @@ function ShowroomList({userRole}) {
         setUpdatedLocation(showroomToEdit.location);
         setUpdatedPhoneNumber(showroomToEdit.phoneNumber);
         setUpdatedEmail(showroomToEdit.email);
-    };
-
-    const handleDeleteShowroom = (showroomId) => {
-        if (!window.confirm("Ești sigur că dorești să ștergi acest showroom?")) {
-            return; // Dacă utilizatorul anulează, nu face nimic
-        }
-
-        fetch(`http://localhost:8080/api/showroom/${showroomId}`, {
-            method: "DELETE",
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Eroare la ștergerea showroom-ului");
-                }
-                // Actualizează lista de showroom-uri după ștergere
-                setShowrooms(prevShowrooms =>
-                    prevShowrooms.filter(showroom => showroom.idShowroom !== showroomId)
-                );
-            })
-            .catch(error => console.error("Eroare:", error));
+        setUpdatedAdminId(showroomToEdit.admin?.idAdmin || ""); // Optional chaining to avoid errors if admin is null
     };
 
     const handleSaveUpdatedShowroom = () => {
         if (!selectedShowroom) return;
 
         // Trimitere cerere PUT către server
-        fetch(`http://localhost:8080/api/showroom/${selectedShowroom.idShowroom}`, {
+        fetch(`http://localhost:8080/api/showroom/${selectedShowroom.idShowroom}?adminId=${updatedAdminId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -119,7 +103,7 @@ function ShowroomList({userRole}) {
                 name: updatedName,
                 location: updatedLocation,
                 phoneNumber: updatedPhoneNumber,
-                email: updatedEmail
+                email: updatedEmail,
             }),
         })
             .then(response => {
@@ -139,6 +123,7 @@ function ShowroomList({userRole}) {
             })
             .catch(error => console.error("Eroare:", error));
     };
+
 
     useEffect(() => {
         fetch("http://localhost:8080/api/showroom")
@@ -228,6 +213,14 @@ function ShowroomList({userRole}) {
                             onChange={(e) => setUpdatedEmail(e.target.value)}
                         />
                     </label>
+                    <label>
+                        ID Admin:
+                        <input
+                            type="text"
+                            value={updatedAdminId}
+                            onChange={(e) => setUpdatedAdminId(e.target.value)}
+                        />
+                    </label>
                     <button onClick={handleSaveUpdatedShowroom}>Salvează</button>
                     <button onClick={() => setSelectedShowroom(null)}>Anulează</button>
                 </div>
@@ -279,6 +272,14 @@ function ShowroomList({userRole}) {
                             type="email"
                             value={newEmail}
                             onChange={(e) => setNewEmail(e.target.value)}
+                        />
+                    </label>
+                    <label>
+                        ID Admin:
+                        <input
+                            type="text"
+                            value={newAdminId}
+                            onChange={(e) => setNewAdminId(e.target.value)}
                         />
                     </label>
                     <button onClick={handleAddShowroom}>Adaugă</button>
