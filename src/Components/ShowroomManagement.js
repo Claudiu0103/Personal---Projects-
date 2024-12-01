@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import React from 'react';
 import ShowroomItem from './ShowroomItem';
-import '../Styles/ShowroomList.css';
+import '../Styles/ShowroomManagement.css';
 
 function ShowroomList({userRole}) {
     const [showrooms, setShowrooms] = useState([]);

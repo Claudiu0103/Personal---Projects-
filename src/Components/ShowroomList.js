@@ -24,10 +24,10 @@ function ShowroomList() {
     return (
         <div>
             <h2>Showroom-urile Disponibile</h2>
-            <div className="showroom-list">
+            <div className="showroom-list2">
                 {showrooms.length > 0 ? (
                     showrooms.map((showroom, index) => (
-                        <div key={index} className="showroom-item-container">
+                        <div key={index} className="showroom-item-container2">
                             <ShowroomItem showroom={showroom} />
                         </div>
                     ))
