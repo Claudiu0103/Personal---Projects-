@@ -32,8 +32,6 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody LoginRequest loginRequest) {
-//        userService.registerUser(loginRequest.getUsername(), loginRequest.getPassword());
-//        User newUser = new User(loginRequest.getUsername(), loginRequest.getPassword(), "Client");
         String encryptedPassword = passwordEncoder.encode(loginRequest.getPassword());
         User user = new User(loginRequest.getUsername(), encryptedPassword,"Client");
         userRepository.save(user);
