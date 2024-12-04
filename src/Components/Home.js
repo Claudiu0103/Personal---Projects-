@@ -39,6 +39,9 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
     const handleGoToManagementCars = () => {
         navigate('/management-cars');
     };
+    const handleGoToViewCart = () => {
+        navigate('/view-cart');
+    };
 
     return (
         <div className="home">
@@ -62,8 +65,10 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
                             <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                             <button onClick={handleGoToDataManagement}>Vezi Date Personale</button>
                             <button onClick={handleGoToCarHistory}>Istoric Mașini</button>
+                            <button onClick={handleGoToViewCart}>Vezi Cosul</button>
                         </>
                     )}
+
                     {isAuthenticated && userRole === 'Admin' && (
                         <>
                             <button onClick={handleGoToManagementShowrooms}>Management Showroom-uri</button>

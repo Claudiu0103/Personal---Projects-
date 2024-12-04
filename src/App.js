@@ -11,6 +11,8 @@ import ClientManagement from "./Components/ClientManagement";
 import CarManagement from "./Components/CarManagement";
 import {useEffect, useState} from "react";
 import CreateAccount from "./Components/CreateAccount";
+import ViewCart from "./Components/ViewCart";
+import Order from "./Components/Order";
 
 
 function App() {
@@ -55,6 +57,8 @@ function App() {
                         <Route path="/create-account"
                                element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
                                                        setIdUser={setIdUser}/>}/>
+                        <Route path="/view-cart" element={<ViewCart/>}/>
+                        <Route path="/order" element={<Order/>}/>
                         {/*<Route*/}
                         {/*    path="/login"*/}
                         {/*    element={<LogIn setAuthenticated={setIsAuthenticated} />}*/}
