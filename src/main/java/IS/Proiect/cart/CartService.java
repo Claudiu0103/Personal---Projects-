@@ -1,6 +1,7 @@
 package IS.Proiect.cart;
 
 import IS.Proiect.car.Car;
+import IS.Proiect.car.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +14,10 @@ import java.util.Optional;
 public class CartService {
     @Autowired
     private final CartRepository cartRepository;
-
-    public CartService(CartRepository cartRepository) {
+    private final CarRepository carRepository;
+    public CartService(CartRepository cartRepository, CarRepository carRepository) {
         this.cartRepository = cartRepository;
+        this.carRepository = carRepository;
     }
 
     public List<Cart> getCarts() {
@@ -44,5 +46,14 @@ public class CartService {
                 .orElseThrow(() -> new IllegalStateException("Cart not found for ID: " + idCart));
 
         return cart.getCars();
+    }
+
+    public void addCarToCart(Integer cartId, Integer carId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new IllegalStateException("Cart not found"));
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new IllegalStateException("Car not found"));
+        cart.addCar(car);
+        cartRepository.save(cart);
     }
 }

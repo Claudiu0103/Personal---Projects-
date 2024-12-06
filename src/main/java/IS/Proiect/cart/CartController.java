@@ -42,7 +42,15 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @PostMapping("/{cartId}/add-car/{carId}")
+    public ResponseEntity<?> addCarToCart(@PathVariable Integer cartId, @PathVariable Integer carId) {
+        try {
+            cartService.addCarToCart(cartId, carId);
+            return ResponseEntity.ok("Car added to cart successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getMessage());
+        }
+    }
 
     @DeleteMapping(path = "{idCart}")
     public void deleteCart(@PathVariable("idCart") Integer id) {
