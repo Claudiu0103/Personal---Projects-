@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import '../Styles/Home.css';
 
-function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
+function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
     const navigate = useNavigate();
 
     // Funcția de logout
@@ -56,7 +56,7 @@ function Home({ isAuthenticated, userRole, setAuthenticated, setUserRole }) {
                     <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                     {!isAuthenticated && (
                         <>
-                        <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
+                            <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                             <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
                         </>
                     )}

@@ -19,6 +19,8 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState('');
     const [idUser, setIdUser] = useState('');
+    const [viewCarList, setViewCarList] = useState(false);
+
     useEffect(() => {
         const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
         const storedUserRole = localStorage.getItem('userRole');
@@ -44,7 +46,7 @@ function App() {
                         <Route path="/" element={<Home isAuthenticated={isAuthenticated} userRole={userRole}
                                                        setAuthenticated={setIsAuthenticated}
                                                        setUserRole={setUserRole}/>}/>
-                        <Route path="/cars" element={<CarList/>}/>
+                        <Route path="/cars" element={<CarList viewCarList={viewCarList} setViewCarList={setViewCarList}/>}/>
                         <Route path="/show-room-list" element={<ShowroomList userRole={userRole}/>}/>
                         <Route path="/login"
                                element={<LogIn setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
@@ -57,7 +59,7 @@ function App() {
                         <Route path="/create-account"
                                element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
                                                        setIdUser={setIdUser}/>}/>
-                        <Route path="/view-cart" element={<ViewCart/>}/>
+                        <Route path="/view-cart" element={<ViewCart idUser={idUser} />} />
                         <Route path="/order" element={<Order/>}/>
                         {/*<Route*/}
                         {/*    path="/login"*/}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import '../Styles/CarList.css';
 function DataManagement() {
     const [clientData, setClientData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);

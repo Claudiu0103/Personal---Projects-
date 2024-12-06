@@ -10,9 +10,9 @@ import car5 from '../assets/images/car5.jpg';
 
 const carImages = [car1, car2, car3, car4, car5];
 
-function CarList() {
+function CarList({setViewCarList}) {
     const [cars, setCars] = useState([]);
-
+    setViewCarList(true);
     useEffect(() => {
         fetch("http://localhost:8080/api/car")
             .then(response => {
@@ -38,7 +38,7 @@ function CarList() {
             <div className="car-list">
                 {cars.length > 0 ? (
                     cars.map((car, index) => (
-                        <CarItem key={index} car={car}/>
+                        <CarItem key={index} car={car} viewCar={car} />
                     ))
                 ) : (
                     <p>Nu există mașini disponibile.</p>
