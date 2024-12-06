@@ -20,8 +20,8 @@ public class Cart {
     )
     private Integer idCart;
 
-    @OneToMany
-    @JoinColumn(name = "cart_id", referencedColumnName = "idCart")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cart_id")
     private List<Car> cars = new ArrayList<>();
 
     public Cart() {

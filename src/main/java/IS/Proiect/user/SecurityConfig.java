@@ -43,7 +43,7 @@ public class SecurityConfig {
 //                .build();
         return http
                 .csrf(customizer -> customizer.disable())
-                .authorizeRequests(requests -> requests.requestMatchers("/api/car/**","/api/user","/login","api/register","api/client/**","api/showroom/**").permitAll().anyRequest().authenticated())
+                .authorizeRequests(requests -> requests.requestMatchers("/api/car/**","/api/user","/login","api/register","api/client/**","api/showroom/**","api/cart/**").permitAll().anyRequest().authenticated())
                 .formLogin(form -> form.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))

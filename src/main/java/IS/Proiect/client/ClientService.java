@@ -20,9 +20,11 @@ public class ClientService {
     public List<Client> getClients() {
         return clientRepository.findAll();
     }
+
     public Client getClient(int id) {
         return clientRepository.findByIdUser(id).orElseThrow(() -> new IllegalArgumentException("Client with id " + id + " not found"));
     }
+
     public void addNewClient(Client client) {
 
         if (client.getFirstName() == null || client.getLastName() == null) {
@@ -49,7 +51,13 @@ public class ClientService {
             client.setFirstName(firstName);
         }
     }
+
     public void save(Client client) {
         clientRepository.save(client);
     }
+
+    public Client getClientByUserId(Integer idUser) {
+        return clientRepository.findById(idUser).orElseThrow(() -> new IllegalStateException("Client with id " + idUser + " doesn't exists"));
+    }
+
 }

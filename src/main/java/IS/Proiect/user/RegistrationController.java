@@ -1,5 +1,6 @@
 package IS.Proiect.user;
 
+import IS.Proiect.cart.Cart;
 import IS.Proiect.client.Client;
 import IS.Proiect.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,14 @@ public class RegistrationController {
         userRepository.save(user);
 
         Client newClient = new Client();
+        Cart cart = new Cart();
         newClient.setFirstName(loginRequest.getFirstName());
         newClient.setLastName(loginRequest.getLastName());
         newClient.setPhone(loginRequest.getPhone());
         newClient.setAddress(loginRequest.getAddress());
         newClient.setEmail(loginRequest.getEmail());
         newClient.setUser(user);
+        newClient.setCart(cart);
 
         clientService.addNewClient(newClient);
         Map<String, Object> response = new HashMap<>();

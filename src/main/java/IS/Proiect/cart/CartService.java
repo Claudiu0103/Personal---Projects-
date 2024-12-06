@@ -1,5 +1,6 @@
 package IS.Proiect.cart;
 
+import IS.Proiect.car.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,11 @@ public class CartService {
     public void updateCart(Integer id, Cart updatedcart) {
         Cart cart = cartRepository.findById(id).orElseThrow(() -> new IllegalStateException("cart with id " + id + " doesn't exist"));
         cartRepository.save(cart);
+    }
+    public List<Car> getCarsFromCart(Integer idCart) {
+        Cart cart = cartRepository.findById(idCart)
+                .orElseThrow(() -> new IllegalStateException("Cart not found for ID: " + idCart));
+
+        return cart.getCars();
     }
 }

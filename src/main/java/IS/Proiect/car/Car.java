@@ -23,10 +23,11 @@ public class Car {
     private String vehicleType;
     private Integer price;
     private String color;
-//    private String imageUrl;
+    //    private String imageUrl;
     @ManyToOne
     @JoinColumn(name = "showroom_id", referencedColumnName = "idShowroom")
     private Showroom showroom;
+
     public Car() {
 
     }

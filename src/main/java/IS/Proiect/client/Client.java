@@ -1,5 +1,6 @@
 package IS.Proiect.client;
 
+import IS.Proiect.cart.Cart;
 import IS.Proiect.user.User;
 import jakarta.persistence.*;
 
@@ -25,21 +26,25 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "idUser")
     private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "idCart")
+    private Cart cart;
 
     public Client() {
 
     }
 
-    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email) {
+    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, Cart cart) {
         this.idClient = idClient;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
         this.email = email;
+        this.cart = cart;
     }
 
-    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, User user) {
+    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, User user, Cart cart) {
         this.idClient = idClient;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,14 +52,16 @@ public class Client {
         this.address = address;
         this.email = email;
         this.user = user;
+        this.cart = cart;
     }
 
-    public Client(String firstName, String lastName, String phone, String address, String email) {
+    public Client(String firstName, String lastName, String phone, String address, String email, Cart cart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
         this.email = email;
+        this.cart = cart;
     }
 
     public Integer getIdClient() {
@@ -111,6 +118,14 @@ public class Client {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     @Override
