@@ -12,8 +12,8 @@ const carImages = [car1, car2, car3, car4, car5];
 
 function CarList({setViewCarList}) {
     const [cars, setCars] = useState([]);
-    setViewCarList(true);
     useEffect(() => {
+        setViewCarList(true);
         fetch("http://localhost:8080/api/car")
             .then(response => {
                 if (!response.ok) {
@@ -38,7 +38,7 @@ function CarList({setViewCarList}) {
             <div className="car-list">
                 {cars.length > 0 ? (
                     cars.map((car, index) => (
-                        <CarItem key={index} car={car} viewCar={car} />
+                        <CarItem key={index} car={car} viewCarList={true}/>
                     ))
                 ) : (
                     <p>Nu există mașini disponibile.</p>

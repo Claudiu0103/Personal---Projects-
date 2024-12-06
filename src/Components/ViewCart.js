@@ -28,6 +28,7 @@ function ViewCart() {
         // Obține datele clientului pe baza idUser
         fetch(`http://localhost:8080/api/client/${userId}`)
             .then((response) => {
+                console.log(userId)
                 if (!response.ok) {
                     throw new Error("Eroare la obținerea datelor clientului");
                 }
@@ -37,7 +38,6 @@ function ViewCart() {
                 if (!client.cart || !client.cart.cars) {
                     throw new Error("Coșul nu este disponibil pentru acest client");
                 }
-                // Adaugă imagini mașinilor
                 const carsWithImages = client.cart.cars.map((car, index) => ({
                     ...car,
                     imageUrl: index < carImages.length ? carImages[index] : null
@@ -49,12 +49,12 @@ function ViewCart() {
                 setError(error.message);
             })
             .finally(() => {
-                setLoading(false); // Oprește afișarea mesajului de încărcare
+                setLoading(false);
             });
     }, [userId]);
 
     const handleGoToOrder = () => {
-        navigate('/order'); // Navighează la pagina de comandă
+        navigate('/order');
     };
 
     if (loading) {

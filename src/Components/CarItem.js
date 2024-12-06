@@ -1,18 +1,45 @@
-import React from 'react';
-import car1 from '../assets/images/car1.jpg';
-import car2 from '../assets/images/car2.jpg';
-import car3 from '../assets/images/car3.jpg';
-import car4 from '../assets/images/car4.jpg';
-import car5 from '../assets/images/car5.jpg';
-
-function CarItem({car, viewCar}) {
+function CarItem({car, viewCarList}) {
     const handleAddToCart = () => {
-        console.log(car);
-    }
+        const userId = localStorage.getItem('idUser');
+        if (!userId) {
+            alert("User ID nu este disponibil.");
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/client/${userId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Eroare la obținerea datelor clientului");
+                }
+                return response.json();
+            })
+            .then((client) => {
+                if (!client.cart || !client.cart.idCart) {
+                    throw new Error("Coșul nu este disponibil pentru acest client");
+                }
+                const cartId = client.cart.idCart;
+                return fetch(`http://localhost:8080/api/cart/${cartId}/add-car/${car.idCar}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Eroare la adăugarea mașinii în coș");
+                }
+                alert("Mașina a fost adăugată în coș cu succes!");
+            })
+            .catch((error) => {
+                console.error("Eroare:", error);
+                alert("A apărut o problemă: " + error.message);
+            });
+    };
+
     return (
         <div className="car-item">
             <div className="car-image">
-                {/* Afișează imaginea doar dacă imageUrl este disponibil */}
                 {car.imageUrl ? (
                     <img src={car.imageUrl} alt={car.model}/>
                 ) : (
@@ -26,7 +53,7 @@ function CarItem({car, viewCar}) {
                 <p>Vehicle Type: {car.vehicleType}</p>
                 <p>Price: {car.price} €</p>
                 <p>Color: {car.color}</p>
-                {viewCar && <button onClick={handleAddToCart}>Adauga in Cos</button>}
+                {viewCarList && <button onClick={handleAddToCart}>Adaugă în Coș</button>}
             </div>
         </div>
     );
