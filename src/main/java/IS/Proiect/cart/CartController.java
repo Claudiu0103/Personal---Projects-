@@ -1,9 +1,5 @@
 package IS.Proiect.cart;
-
-import IS.Proiect.admin.Admin;
-import IS.Proiect.admin.AdminService;
 import IS.Proiect.car.Car;
-import IS.Proiect.car.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +13,7 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+
     @Autowired
     public CartController(CartService cartService) {
         this.cartService = cartService;
@@ -26,6 +23,7 @@ public class CartController {
     public List<Cart> getCarts() {
         return cartService.getCarts();
     }
+
     @GetMapping(path = "{idCart}")
     public List<Car> getCars(@PathVariable Integer idCart) {
         return cartService.getCarsFromCart(idCart);
@@ -42,6 +40,7 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @PostMapping("/{cartId}/add-car/{carId}")
     public ResponseEntity<?> addCarToCart(@PathVariable Integer cartId, @PathVariable Integer carId) {
         try {
@@ -55,6 +54,22 @@ public class CartController {
     @DeleteMapping(path = "{idCart}")
     public void deleteCart(@PathVariable("idCart") Integer id) {
         cartService.deleteCart(id);
+    }
+
+    @DeleteMapping("/{cartId}/remove-car/{carId}")
+    public ResponseEntity<?> removeCarFromCart(
+            @PathVariable Integer cartId,
+            @PathVariable Integer carId) {
+        try {
+            cartService.removeCarFromCart(cartId, carId);
+            return ResponseEntity.ok("Car removed from cart successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        }
     }
 
     @PutMapping(path = "{idCart}")
@@ -71,7 +86,4 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
-
 }

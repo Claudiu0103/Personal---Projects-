@@ -20,7 +20,7 @@ public class Cart {
     )
     private Integer idCart;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "cart_id")
     private List<Car> cars = new ArrayList<>();
 
