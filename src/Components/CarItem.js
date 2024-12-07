@@ -1,4 +1,5 @@
-function CarItem({car, viewCarList}) {
+function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
     const handleAddToCart = () => {
         const userId = localStorage.getItem('idUser');
         if (!userId) {
@@ -18,12 +19,26 @@ function CarItem({car, viewCarList}) {
                     throw new Error("Coșul nu este disponibil pentru acest client");
                 }
                 const cartId = client.cart.idCart;
-                return fetch(`http://localhost:8080/api/cart/${cartId}/add-car/${car.idCar}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
+                return fetch(`http://localhost:8080/api/cart/${cartId}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Eroare la obținerea mașinilor din coș");
+                        }
+                        return response.json();
+                    })
+                    .then((cartCars) => {
+                        // Verifică dacă mașina este deja în coș
+                        const carExists = cartCars.some((cartCar) => cartCar.idCar === car.idCar);
+                        if (carExists) {
+                            throw new Error("Mașina este deja în coș");
+                        }
+                        return fetch(`http://localhost:8080/api/cart/${cartId}/add-car/${car.idCar}`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+                    });
             })
             .then((response) => {
                 if (!response.ok) {
@@ -53,7 +68,9 @@ function CarItem({car, viewCarList}) {
                 <p>Vehicle Type: {car.vehicleType}</p>
                 <p>Price: {car.price} €</p>
                 <p>Color: {car.color}</p>
-                {viewCarList && <button onClick={handleAddToCart}>Adaugă în Coș</button>}
+                {viewCarList && isAuthenticated && <button onClick={handleAddToCart}>Adaugă în Coș</button>}
+                {isViewCart && isAuthenticated && handleRemoveFromCart &&
+                    <button onClick={() => handleRemoveFromCart(cartId,car.idCar)}>Sterge din Cos</button>}
             </div>
         </div>
     );
