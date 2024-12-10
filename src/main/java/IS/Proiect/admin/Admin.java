@@ -21,7 +21,7 @@ public class Admin {
     private String firstName;
     private String lastName;
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "idUser")
+    @JoinColumn(name = "user_id", referencedColumnName = "idUser", unique = true)
     private User user;
 
     public Admin() {

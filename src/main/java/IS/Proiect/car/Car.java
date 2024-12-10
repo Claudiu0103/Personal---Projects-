@@ -23,7 +23,8 @@ public class Car {
     private String vehicleType;
     private Integer price;
     private String color;
-    //    private String imageUrl;
+    @Column(length = 65535)
+    private String imageUrl;
     @ManyToOne
     @JoinColumn(name = "showroom_id", referencedColumnName = "idShowroom")
     private Showroom showroom;
@@ -39,6 +40,7 @@ public class Car {
                String vehicleType,
                Integer price,
                String color,
+               String imageUrl,
                Showroom showroom) {
         this.idCar = idCar;
         this.kilometers = kilometers;
@@ -47,6 +49,7 @@ public class Car {
         this.vehicleType = vehicleType;
         this.price = price;
         this.color = color;
+        this.imageUrl = imageUrl;
         this.showroom = showroom;
     }
 
@@ -56,6 +59,7 @@ public class Car {
                String vehicleType,
                Integer price,
                String color,
+               String imageUrl,
                Showroom showroom) {
         this.kilometers = kilometers;
         this.releaseDate = releaseDate;
@@ -63,6 +67,7 @@ public class Car {
         this.vehicleType = vehicleType;
         this.price = price;
         this.color = color;
+        this.imageUrl = imageUrl;
         this.showroom = showroom;
     }
 
@@ -130,13 +135,13 @@ public class Car {
         this.showroom = showroom;
     }
 
-//    public String getImageUrl() {
-//        return imageUrl;
-//    }
-//
-//    public void setImageUrl(String imageUrl) {
-//        this.imageUrl = imageUrl;
-//    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     @Override
     public String toString() {
