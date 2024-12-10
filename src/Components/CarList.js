@@ -12,14 +12,14 @@ import car5 from '../assets/images/car5.jpg';
 const carImages = [car1, car2, car3, car4, car5];
 
 function CarList({ setViewCarList }) {
-    const [cars, setCars] = useState([]); // Lista mașinilor
-    const [loading, setLoading] = useState(true); // Stare pentru încărcare
-    const [error, setError] = useState(null); // Stare pentru erori
+    const [cars, setCars] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        setViewCarList(true); // Setează vizualizarea curentă la lista de mașini
+        setViewCarList(true);
 
-        fetch("http://localhost:8080/api/car") // Endpoint-ul backend-ului
+        fetch("http://localhost:8080/api/car")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Eroare la încărcarea datelor");
@@ -31,7 +31,7 @@ function CarList({ setViewCarList }) {
                 // Combină datele cu fallback-ul pentru imagini
                 const carsWithImages = data.map((car, index) => ({
                     ...car,
-                    imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null), // URL backend sau fallback local
+                    imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null),
                 }));
                 setCars(carsWithImages);
             })
