@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '../Styles/ViewCart.css';
-
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CarItem from './CarItem';
 import car1 from '../assets/images/car1.jpg';
 import car2 from '../assets/images/car2.jpg';
@@ -9,9 +8,10 @@ import car3 from '../assets/images/car3.jpg';
 import car4 from '../assets/images/car4.jpg';
 import car5 from '../assets/images/car5.jpg';
 
+// Imagini locale fallback
 const carImages = [car1, car2, car3, car4, car5];
 
-function ViewCart({setIsViewCart}) {
+function ViewCart({ setIsViewCart }) {
     const [cart, setCart] = useState([]); // Lista de mașini din coș
     const [cartId, setCartId] = useState(null); // ID-ul coșului
     const [loading, setLoading] = useState(true); // Stare pentru încărcare
@@ -31,7 +31,7 @@ function ViewCart({setIsViewCart}) {
                     throw new Error("Eroare la ștergerea mașinii din coș");
                 }
                 setCart(cart.filter((car) => car.idCar !== carId));
-                alert("Mașina a fost eliminată din coș.");
+                    alert("Mașina a fost eliminată din coș.");
             })
             .catch((error) => {
                 console.error("Eroare:", error);
@@ -62,11 +62,10 @@ function ViewCart({setIsViewCart}) {
 
                 // Stochează ID-ul coșului
                 setCartId(client.cart.idCart);
-
                 // Asociază imagini cu mașinile din coș
                 const carsWithImages = client.cart.cars.map((car, index) => ({
                     ...car,
-                    imageUrl: index < carImages.length ? carImages[index] : null
+                    imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null), // URL backend sau fallback
                 }));
                 setCart(carsWithImages);
             })
@@ -77,7 +76,7 @@ function ViewCart({setIsViewCart}) {
             .finally(() => {
                 setLoading(false);
             });
-    }, [userId]);
+    }, [setIsViewCart, userId]);
 
     const handleGoToOrder = () => {
         navigate('/order');
@@ -90,6 +89,17 @@ function ViewCart({setIsViewCart}) {
     if (error) {
         return <p>Eroare: {error}</p>;
     }
+    {cart.map((car) => {
+        return (
+            <CarItem
+                key={car.idCar}
+                car={car}
+                handleRemoveFromCart={(carId) => handleRemoveFromCart(cartId, carId)}
+                isViewCart={true}
+                cartId={cartId}
+            />
+        );
+    })}
 
     return (
         <div className="view-cart-container">
@@ -99,11 +109,11 @@ function ViewCart({setIsViewCart}) {
                 <div className="cart-items">
                     {cart.map((car, index) => (
                         <CarItem
-                            key={index}
+                            key={car.idCar}
                             car={car}
                             handleRemoveFromCart={(carId) => handleRemoveFromCart(cartId, carId)}
                             isViewCart={true}
-                            cartId = {cartId}
+                            cartId={cartId}
                         />
                     ))}
                 </div>

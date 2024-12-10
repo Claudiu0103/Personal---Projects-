@@ -30,7 +30,6 @@ function LogIn({setAuthenticated,setUserRole,setIdUser}) {
                         localStorage.setItem('idUser', data.ID);
                         setUserRole(data.Type);
                         setIdUser(data.ID);
-                        console.log(data.ID);
                     });
                 } else {
                     throw new Error('Eroare la autentificare');

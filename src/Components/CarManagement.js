@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import React from 'react';
 import CarItem from './CarItem';
 import '../Styles/CarManagement.css';
@@ -19,6 +19,7 @@ function CarManagement() {
         vehicleType: "",
         price: "",
         color: "",
+        imageUrl: "",
         showroomId: "",
     });
     const [showAddForm, setShowAddForm] = useState(false);
@@ -40,15 +41,16 @@ function CarManagement() {
             .then(data => {
                 const carsWithImages = data.map((car, index) => ({
                     ...car,
-                    imageUrl: carImages[index % carImages.length]
+                    imageUrl: car.imageUrl ? car.imageUrl : carImages[index % carImages.length],
                 }));
                 setCars(carsWithImages);
             })
             .catch(error => console.error("Eroare:", error));
     };
 
+
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -63,6 +65,7 @@ function CarManagement() {
             vehicleType: formData.vehicleType,
             price: parseInt(formData.price, 10),
             color: formData.color,
+            imageUrl: formData.imageUrl,
         };
 
         if (isEditing) {
@@ -71,7 +74,7 @@ function CarManagement() {
 
             fetch(url, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(carData),
             })
                 .then(response => {
@@ -91,7 +94,7 @@ function CarManagement() {
 
             fetch(url, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(carData),
             })
                 .then(response => {
@@ -135,6 +138,7 @@ function CarManagement() {
             vehicleType: car.vehicleType || "",
             price: car.price || "",
             color: car.color || "",
+            imageUrl: car.imageUrl || "",
             showroomId: car.showroom?.idShowroom || "", // Extrage idShowroom din showroom
         });
         setShowAddForm(true);
@@ -152,6 +156,7 @@ function CarManagement() {
             vehicleType: "",
             price: "",
             color: "",
+            imageUrl: "",
             showroomId: "",
         });
         setShowAddForm(false);
@@ -225,6 +230,14 @@ function CarManagement() {
                             value={formData.color}
                             onChange={handleInputChange}
                         />
+                    </label>
+                    <label>
+                        Image URL:
+                        <input
+                            type="text"
+                            name="imageUrl"
+                            value={formData.imageUrl}
+                            onChange={handleInputChange}/>
                     </label>
                     <label>
                         ID Showroom:

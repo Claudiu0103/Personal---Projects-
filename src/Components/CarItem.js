@@ -1,5 +1,6 @@
 function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const storedUserRole = localStorage.getItem('userRole');
     const handleAddToCart = () => {
         const userId = localStorage.getItem('idUser');
         if (!userId) {
@@ -68,9 +69,9 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
                 <p>Vehicle Type: {car.vehicleType}</p>
                 <p>Price: {car.price} €</p>
                 <p>Color: {car.color}</p>
-                {viewCarList && isAuthenticated && <button onClick={handleAddToCart}>Adaugă în Coș</button>}
+                {viewCarList && isAuthenticated && storedUserRole === "Client" && <button onClick={handleAddToCart}>Adaugă în Coș</button>}
                 {isViewCart && isAuthenticated && handleRemoveFromCart &&
-                    <button onClick={() => handleRemoveFromCart(cartId,car.idCar)}>Sterge din Cos</button>}
+                    <button onClick={() => handleRemoveFromCart(car.idCar)}>Sterge din Cos</button>}
             </div>
         </div>
     );
