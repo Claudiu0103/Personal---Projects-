@@ -16,10 +16,18 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
                 return response.json();
             })
             .then((client) => {
-                if (!client.cart || !client.cart.idCart) {
-                    throw new Error("Coșul nu este disponibil pentru acest client");
+                console.log("Lista de coșuri:", client.carts);
+
+                // Găsește un coș activ (de exemplu, fără Payment asociat)
+                const activeCart = client.carts.find(cart => !cart.payment);
+                if (!activeCart) {
+                    throw new Error("Nu există un coș activ pentru acest client.");
                 }
-                const cartId = client.cart.idCart;
+
+                console.log("Coș activ:", activeCart);
+
+                const cartId = activeCart.idCart;
+
                 return fetch(`http://localhost:8080/api/cart/${cartId}`)
                     .then((response) => {
                         if (!response.ok) {
@@ -33,6 +41,8 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
                         if (carExists) {
                             throw new Error("Mașina este deja în coș");
                         }
+
+                        // Adaugă mașina în coș
                         return fetch(`http://localhost:8080/api/cart/${cartId}/add-car/${car.idCar}`, {
                             method: "POST",
                             headers: {
@@ -52,6 +62,7 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
                 alert("A apărut o problemă: " + error.message);
             });
     };
+
 
     return (
         <div className="car-item">
