@@ -25,7 +25,8 @@ public class CartConfig {
             Car car4 = carRepository.findById(4).orElseThrow(() -> new IllegalStateException("Car4 Not Found"));
             Cart cart1 = new Cart(1, List.of(car1, car2));
             Cart cart2 = new Cart(2, List.of(car3, car4));
-            repository.saveAll(List.of(cart1, cart2));
+            Cart cart3 = new Cart(3, List.of(car2, car4));
+            repository.saveAll(List.of(cart1, cart2, cart3));
         };
     }
 }

@@ -1,7 +1,13 @@
 package IS.Proiect.cart;
 
 import IS.Proiect.car.Car;
+import IS.Proiect.client.Client;
+import IS.Proiect.payment.Payment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,15 @@ public class Cart {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "cart_id")
     private List<Car> cars = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "idClient")
+    @JsonBackReference
+    private Client client;
+
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Payment payment;
 
     public Cart() {
     }
@@ -54,6 +69,21 @@ public class Cart {
 
     public void removeCar(Car car) {
         this.cars.remove(car);
+    }
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override

@@ -57,7 +57,12 @@ public class ClientService {
     }
 
     public Client getClientByUserId(Integer idUser) {
-        return clientRepository.findById(idUser).orElseThrow(() -> new IllegalStateException("Client with id " + idUser + " doesn't exists"));
+        System.out.println("Caut client cu userId: " + idUser);
+        return clientRepository.findByIdUser(idUser)
+                .orElseThrow(() -> {
+                    System.err.println("Client with userId " + idUser + " doesn't exist");
+                    return new IllegalStateException("Client with userId " + idUser + " doesn't exist");
+                });
     }
 
 }

@@ -23,8 +23,13 @@ public class ClientConfig {
             User user2 = userRepository.findById(4).orElseThrow(() -> new IllegalStateException("User not found"));
             Cart cart1 = cartRepository.findById(1).orElseThrow(() -> new IllegalStateException("Cart1 not found"));
             Cart cart2 = cartRepository.findById(2).orElseThrow(() -> new IllegalStateException("Cart2 not found"));
-            Client vlad = new Client(1, "Vlad", "Popescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com", user, cart1);
-            Client dan = new Client(2, "Dan", "Stefanescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com", user2, cart2);
+            Cart cart3 = cartRepository.findById(3).orElseThrow(() -> new IllegalStateException("Cart3 not found"));
+
+            Client vlad = new Client(1, "Vlad", "Popescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com", user);
+            vlad.addCart(cart1);
+            vlad.addCart(cart3);
+            Client dan = new Client(2, "Dan", "Stefanescu", "0726644649", "Constantin Noica Nr 2", "vladpopescu@yahoo.com", user2);
+            dan.addCart(cart2);
             repository.saveAll(List.of(vlad, dan));
         };
     }

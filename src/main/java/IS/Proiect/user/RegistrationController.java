@@ -45,7 +45,7 @@ public class RegistrationController {
         newClient.setAddress(loginRequest.getAddress());
         newClient.setEmail(loginRequest.getEmail());
         newClient.setUser(user);
-        newClient.setCart(cart);
+        newClient.addCart(cart);
 
         clientService.addNewClient(newClient);
         Map<String, Object> response = new HashMap<>();

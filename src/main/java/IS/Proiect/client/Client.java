@@ -2,7 +2,11 @@ package IS.Proiect.client;
 
 import IS.Proiect.cart.Cart;
 import IS.Proiect.user.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -26,25 +30,24 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "idUser")
     private User user;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "idCart")
-    private Cart cart;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Cart> carts = new ArrayList<>();
 
     public Client() {
 
     }
 
-    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, Cart cart) {
+    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email) {
         this.idClient = idClient;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
         this.email = email;
-        this.cart = cart;
     }
 
-    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, User user, Cart cart) {
+    public Client(Integer idClient, String firstName, String lastName, String phone, String address, String email, User user) {
         this.idClient = idClient;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,16 +55,14 @@ public class Client {
         this.address = address;
         this.email = email;
         this.user = user;
-        this.cart = cart;
     }
 
-    public Client(String firstName, String lastName, String phone, String address, String email, Cart cart) {
+    public Client(String firstName, String lastName, String phone, String address, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.address = address;
         this.email = email;
-        this.cart = cart;
     }
 
     public Integer getIdClient() {
@@ -120,12 +121,21 @@ public class Client {
         this.user = user;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+    public void addCart(Cart cart) {
+        carts.add(cart);
+        cart.setClient(this);
+    }
+
+    public void removeCart(Cart cart) {
+        carts.remove(cart);
+        cart.setClient(null);
     }
 
     @Override
@@ -138,6 +148,7 @@ public class Client {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", user=" + user +
+                ", carts=" + carts +
                 '}';
     }
 }
