@@ -8,27 +8,39 @@ import IS.Proiect.payment.Payment;
 import IS.Proiect.payment.PaymentRepository;
 import IS.Proiect.payment.PaymentRequest;
 import IS.Proiect.payment.PaymentService;
+import IS.Proiect.relations.CartCar;
+import IS.Proiect.relations.CartCarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
+
     @Autowired
     private final CartRepository cartRepository;
     private final CarRepository carRepository;
     private final ClientRepository clientRepository;
     private final PaymentRepository paymentRepository;
+    private final CartCarRepository cartCarRepository;
     @Autowired
-    private PaymentService paymentService;
+    private final PaymentService paymentService;
 
-    public CartService(CartRepository cartRepository, CarRepository carRepository, PaymentRepository paymentRepository, PaymentService paymentService, ClientRepository clientRepository) {
+    public CartService(
+            CartRepository cartRepository,
+            CarRepository carRepository,
+            PaymentRepository paymentRepository,
+            PaymentService paymentService,
+            ClientRepository clientRepository,
+            CartCarRepository cartCarRepository) {
         this.cartRepository = cartRepository;
         this.carRepository = carRepository;
         this.paymentRepository = paymentRepository;
         this.paymentService = paymentService;
         this.clientRepository = clientRepository;
+        this.cartCarRepository = cartCarRepository;
     }
 
     public List<Cart> getCarts() {
@@ -43,21 +55,24 @@ public class CartService {
     public void deleteCart(Integer id) {
         boolean exists = cartRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("Cart with id " + id + " doesn't exists");
+            throw new IllegalStateException("Cart with id " + id + " doesn't exist");
         }
         cartRepository.deleteById(id);
     }
 
-    public void updateCart(Integer id, Cart updatedcart) {
-        Cart cart = cartRepository.findById(id).orElseThrow(() -> new IllegalStateException("cart with id " + id + " doesn't exist"));
-        cartRepository.save(cart);
+    public void updateCart(Integer id, Cart updatedCart) {
+        Cart cart = cartRepository.findById(id).orElseThrow(() -> new IllegalStateException("Cart with id " + id + " doesn't exist"));
+        cartRepository.save(updatedCart);
     }
 
-    public List<Car> getCarsFromCart(Integer idCart) {
-        Cart cart = cartRepository.findById(idCart)
-                .orElseThrow(() -> new IllegalStateException("Cart not found for ID: " + idCart));
+    public List<Car> getCarsFromCart(Integer cartId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new IllegalStateException("Cart not found for ID: " + cartId));
 
-        return cart.getCars();
+        return cartCarRepository.findByCart(cart)
+                .stream()
+                .map(CartCar::getCar)
+                .collect(Collectors.toList());
     }
 
     public void addCarToCart(Integer cartId, Integer carId) {
@@ -65,25 +80,28 @@ public class CartService {
                 .orElseThrow(() -> new IllegalStateException("Cart not found"));
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new IllegalStateException("Car not found"));
-        cart.addCar(car);
-        cartRepository.save(cart);
+
+        CartCar cartCar = new CartCar();
+        cartCar.setCart(cart);
+        cartCar.setCar(car);
+
+        cartCarRepository.save(cartCar);
     }
 
     public void removeCarFromCart(Integer cartId, Integer carId) {
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException("Coșul nu a fost găsit"));
-        Car carToRemove = cart.getCars().stream()
-                .filter(car -> car.getIdCar().equals(carId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Mașina nu a fost găsită în coș"));
-        cart.getCars().remove(carToRemove);
-        System.out.println(cart.getCars());
-        cartRepository.save(cart);
+                .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new IllegalArgumentException("Car not found"));
+
+        CartCar cartCar = cartCarRepository.findByCartAndCar(cart, car)
+                .orElseThrow(() -> new IllegalArgumentException("Car not found in cart"));
+        cartCarRepository.delete(cartCar);
     }
 
     public Cart createNewCartForClient(Integer clientId) {
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new IllegalArgumentException("Clientul cu ID-ul " + clientId + " nu există."));
+                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + clientId + " does not exist."));
         Cart newCart = new Cart();
         newCart.setClient(client);
         return cartRepository.save(newCart);
@@ -93,15 +111,15 @@ public class CartService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new IllegalStateException("Cart not found"));
 
-        cart.getCars().clear();
-        cartRepository.save(cart);
+        List<CartCar> cartCars = cartCarRepository.findByCart(cart);
+        cartCarRepository.deleteAll(cartCars);
     }
 
     public Payment createPayment(Integer cartId, PaymentRequest paymentRequest) {
         Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new IllegalArgumentException("Coșul nu există!"));
+                .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
         if (cart.getPayment() != null) {
-            throw new IllegalArgumentException("Coșul are deja o plată asociată!");
+            throw new IllegalArgumentException("Cart already has a payment associated!");
         }
         Payment payment = new Payment();
         payment.setCart(cart);
@@ -117,5 +135,12 @@ public class CartService {
         cart.setPayment(payment);
         cartRepository.save(cart);
         return payment;
+    }
+    public List<Cart> getCartsForClient(Integer clientId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new IllegalArgumentException("Client with ID " + clientId + " does not exist."));
+
+        // Returnează lista de coșuri asociate clientului
+        return cartRepository.findByClient(client);
     }
 }

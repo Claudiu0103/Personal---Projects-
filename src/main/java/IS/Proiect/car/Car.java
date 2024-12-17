@@ -25,6 +25,7 @@ public class Car {
     private String color;
     @Column(length = 65535)
     private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "showroom_id", referencedColumnName = "idShowroom")
     private Showroom showroom;

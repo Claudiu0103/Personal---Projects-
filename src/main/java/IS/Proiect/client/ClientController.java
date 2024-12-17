@@ -1,6 +1,5 @@
 package IS.Proiect.client;
 
-import IS.Proiect.car.Car;
 import IS.Proiect.cart.Cart;
 import IS.Proiect.cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,7 @@ public class ClientController {
         this.clientService = clientService;
         this.cartService = cartService;
     }
+
     @GetMapping
     public ResponseEntity<List<Client>> getAllClients() {
         List<Client> clients = clientService.getClients();
@@ -31,13 +31,14 @@ public class ClientController {
         }
         return ResponseEntity.ok(clients);
     }
+
     @GetMapping(path = "{idUser}")
     public Client getClient(@PathVariable int idUser) {
         return clientService.getClient(idUser);
     }
 
     @PostMapping(path = "{idClient}")
-    public void registerNewCar(@RequestBody Client client) {
+    public void registerNewClient(@RequestBody Client client) {
         clientService.addNewClient(client);
     }
 
@@ -50,25 +51,34 @@ public class ClientController {
     public ResponseEntity<Cart> createCart(@PathVariable Integer userId) {
         try {
             Client client = clientService.getClientByUserId(userId);
-            System.out.println("Client: " + client);
             if (client == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(null);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
-            System.out.println("Id-ul clientului este: " + client.getIdClient());
             Cart newCart = cartService.createNewCartForClient(client.getIdClient());
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(newCart);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newCart);
         } catch (Exception e) {
             System.err.println("Eroare la crearea coșului: " + e.getMessage());
-            e.printStackTrace(); // Loghează stack trace pentru mai multe detalii
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
+    @GetMapping("/{userId}/cars")
+    public ResponseEntity<List<Cart>> getAllCarsForClient(@PathVariable Integer userId) {
+        try {
+            Client client = clientService.getClientByUserId(userId);
+            if (client == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+            // Obține toate mașinile prin relațiile din coșuri
+            List<Cart> carts = cartService.getCartsForClient(client.getIdClient());
+            return ResponseEntity.ok(carts);
+        } catch (Exception e) {
+            System.err.println("Eroare la obținerea mașinilor: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
-    @PutMapping(path ="{idUser}")
+    @PutMapping(path = "{idUser}")
     public ResponseEntity<Client> updateClient(@PathVariable Integer idUser, @RequestBody Client updatedClient) {
         Client client = clientService.getClient(idUser);
         if (client == null) {

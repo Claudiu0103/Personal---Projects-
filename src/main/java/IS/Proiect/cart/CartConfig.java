@@ -19,13 +19,9 @@ public class CartConfig {
     @Order(5)
     CommandLineRunner commandLineRunner6(CartRepository repository, CarRepository carRepository) {
         return args -> {
-            Car car1 = carRepository.findById(1).orElseThrow(() -> new IllegalStateException("Car1 Not Found"));
-            Car car2 = carRepository.findById(2).orElseThrow(() -> new IllegalStateException("Car2 Not Found"));
-            Car car3 = carRepository.findById(3).orElseThrow(() -> new IllegalStateException("Car3 Not Found"));
-            Car car4 = carRepository.findById(4).orElseThrow(() -> new IllegalStateException("Car4 Not Found"));
-            Cart cart1 = new Cart(1, List.of(car1, car2));
-            Cart cart2 = new Cart(2, List.of(car3, car4));
-            Cart cart3 = new Cart(3, List.of(car2, car4));
+            Cart cart1 = new Cart(1);
+            Cart cart2 = new Cart(2);
+            Cart cart3 = new Cart(3);
             repository.saveAll(List.of(cart1, cart2, cart3));
         };
     }

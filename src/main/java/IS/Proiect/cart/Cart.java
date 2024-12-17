@@ -26,10 +26,6 @@ public class Cart {
     )
     private Integer idCart;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "cart_id")
-    private List<Car> cars = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "idClient")
     @JsonBackReference
@@ -39,12 +35,13 @@ public class Cart {
     @JsonManagedReference
     private Payment payment;
 
+
+
     public Cart() {
     }
 
-    public Cart(Integer idCart, List<Car> cars) {
+    public Cart(Integer idCart) {
         this.idCart = idCart;
-        this.cars = cars;
     }
 
     public Integer getIdCart() {
@@ -55,21 +52,7 @@ public class Cart {
         this.idCart = idCart;
     }
 
-    public List<Car> getCars() {
-        return cars;
-    }
 
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
-    }
-
-    public void addCar(Car car) {
-        this.cars.add(car);
-    }
-
-    public void removeCar(Car car) {
-        this.cars.remove(car);
-    }
     public Client getClient() {
         return client;
     }
@@ -90,7 +73,6 @@ public class Cart {
     public String toString() {
         return "Cart{" +
                 "idCart=" + idCart +
-                ", cars=" + cars +
                 '}';
     }
 }
