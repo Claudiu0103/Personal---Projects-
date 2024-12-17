@@ -1,6 +1,7 @@
 function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const storedUserRole = localStorage.getItem('userRole');
+
     const handleAddToCart = () => {
         const userId = localStorage.getItem('idUser');
         if (!userId) {
@@ -28,16 +29,16 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
 
                 const cartId = activeCart.idCart;
 
-                return fetch(`http://localhost:8080/api/cart/${cartId}`)
+                return fetch(`http://localhost:8080/api/cart/${cartId}/cart-cars`)
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error("Eroare la obținerea mașinilor din coș");
+                            throw new Error("Eroare la obținerea relațiilor CartCar");
                         }
                         return response.json();
                     })
                     .then((cartCars) => {
-                        // Verifică dacă mașina este deja în coș
-                        const carExists = cartCars.some((cartCar) => cartCar.idCar === car.idCar);
+                        // Verifică dacă mașina este deja în coș (prin relația CartCar)
+                        const carExists = cartCars.some((cartCar) => cartCar.car.idCar === car.idCar);
                         if (carExists) {
                             throw new Error("Mașina este deja în coș");
                         }
@@ -62,7 +63,6 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart, cartId}) {
                 alert("A apărut o problemă: " + error.message);
             });
     };
-
 
     return (
         <div className="car-item">

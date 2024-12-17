@@ -40,6 +40,7 @@ function ViewCart({setIsViewCart}) {
             });
     };
 
+
     useEffect(() => {
         setIsViewCart(true);
         if (!userId) {
@@ -67,18 +68,33 @@ function ViewCart({setIsViewCart}) {
                 const currentCart = client.carts.find(cart => cart.payment === null);
                 console.log('Coș curent:', currentCart);
 
-                if (!currentCart || !currentCart.cars || currentCart.cars.length === 0) {
+                if (!currentCart) {
                     setCart([]); // Coșul curent este gol
-                    setCartId(currentCart?.idCart || null); // Setează ID-ul coșului, chiar dacă e gol
+                    setCartId(null);
                     return;
                 }
 
                 setCartId(currentCart.idCart);
-                const carsWithImages = currentCart.cars.map((car, index) => ({
-                    ...car,
-                    imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null),
-                }));
-                setCart(carsWithImages);
+
+                // Obține mașinile prin entitatea intermediară
+                fetch(`http://localhost:8080/api/cart/${currentCart.idCart}/cars`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Eroare la obținerea mașinilor din coș');
+                        }
+                        return response.json();
+                    })
+                    .then((cars) => {
+                        const carsWithImages = cars.map((car, index) => ({
+                            ...car,
+                            imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null),
+                        }));
+                        setCart(carsWithImages);
+                    })
+                    .catch((error) => {
+                        console.error('Eroare:', error);
+                        setError(error.message);
+                    });
             })
             .catch((error) => {
                 console.error('Eroare:', error);
@@ -88,6 +104,7 @@ function ViewCart({setIsViewCart}) {
                 setLoading(false);
             });
     }, [setIsViewCart, userId]);
+
 
 
 
@@ -142,34 +159,6 @@ function ViewCart({setIsViewCart}) {
                     });
             })
             .catch((error) => alert('Eroare: ' + error.message));
-    };
-
-
-
-
-    const handleGoToOrder = () => {
-        if (!cartId) {
-            alert('Coșul nu este disponibil.');
-            return;
-        }
-        fetch(`http://localhost:8080/api/cart/${cartId}/clear`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Eroare la golirea coșului.');
-                }
-                setCart([]);
-                alert('Coșul a fost golit cu succes.');
-                navigate('/order');
-            })
-            .catch((error) => {
-                console.error('Eroare:', error);
-                alert('A apărut o problemă: ' + error.message);
-            });
     };
 
     if (loading) {

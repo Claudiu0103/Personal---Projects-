@@ -53,7 +53,6 @@ function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
                 <p>La Dealer Auto, oferim o selecție variată de vehicule pentru toate gusturile și bugetele.</p>
                 <p>Vizitează secțiunea noastră de oferte pentru a găsi mașina perfectă pentru tine!</p>
                 <div className="button-group">
-                    <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                     {!isAuthenticated && (
                         <>
                             <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
@@ -62,6 +61,7 @@ function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
                     )}
                     {isAuthenticated && userRole === 'Client' && (
                         <>
+                            <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                             <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                             <button onClick={handleGoToDataManagement}>Vezi Date Personale</button>
                             <button onClick={handleGoToCarHistory}>Istoric Comenzi</button>
