@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import CreateAccount from "./Components/CreateAccount";
 import ViewCart from "./Components/ViewCart";
 import Order from "./Components/Order";
+import Favorites from "./Components/Favorites";
 
 
 function App() {
@@ -48,7 +49,8 @@ function App() {
                         <Route path="/" element={<Home isAuthenticated={isAuthenticated} userRole={userRole}
                                                        setAuthenticated={setIsAuthenticated}
                                                        setUserRole={setUserRole}/>}/>
-                        <Route path="/cars" element={<CarList viewCarList={viewCarList} setViewCarList={setViewCarList}/>}/>
+                        <Route path="/cars"
+                               element={<CarList viewCarList={viewCarList} setViewCarList={setViewCarList}/>}/>
                         <Route path="/show-room-list" element={<ShowroomList userRole={userRole}/>}/>
                         <Route path="/login"
                                element={<LogIn setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
@@ -61,12 +63,10 @@ function App() {
                         <Route path="/create-account"
                                element={<CreateAccount setAuthenticated={setIsAuthenticated} setUserRole={setUserRole}
                                                        setIdUser={setIdUser}/>}/>
-                        <Route path="/view-cart" element={<ViewCart idUser={idUser} setIsViewCart={setIsViewCart}/>} />
+                        <Route path="/view-cart" element={<ViewCart idUser={idUser} setIsViewCart={setIsViewCart}/>}/>
                         <Route path="/order" element={<Order/>}/>
-                        {/*<Route*/}
-                        {/*    path="/login"*/}
-                        {/*    element={<LogIn setAuthenticated={setIsAuthenticated} />}*/}
-                        {/*/>*/}
+                        <Route path="/favorites" element={<Favorites/>}/>
+
                     </Routes>
                 </main>
             </div>

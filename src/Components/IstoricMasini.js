@@ -15,53 +15,76 @@ function CarHistory() {
             return;
         }
 
-        fetch(`http://localhost:8080/api/payment/user/${userId}`)
+        fetch(`http://localhost:8080/api/payment/user/${userId}/details`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Eroare la încărcarea plăților.");
+                    throw new Error("Eroare la încărcarea plăților și mașinilor.");
                 }
                 return response.json();
             })
-            .then((data) => {
-                setPayments(data);
-            })
-            .catch((error) => {
-                console.error("Eroare:", error);
-                setError(error.message);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            .then((data) => setPayments(data))
+            .catch((error) => setError(error.message))
+            .finally(() => setLoading(false));
     }, [userId]);
 
     if (loading) {
-        return React.createElement('p', { className: 'message loading' }, 'Se încarcă istoricul...');
+        return <p className="message loading">Se încarcă istoricul...</p>;
     }
 
     if (error) {
-        return React.createElement('p', { className: 'message error' }, `Eroare: ${error}`);
+        return <p className="message error">Eroare: {error}</p>;
     }
 
-    const paymentItems = payments.map((payment) =>
-        React.createElement(
-            'div',
-            { key: payment.idPayment, className: 'payment-item' },
-            React.createElement('p', null, `ID Plată: ${payment.idPayment}`),
-            React.createElement('p', null, `Adresa de livrare: ${payment.shippingAddress}`),
-            React.createElement('p', null, `Data livrării: ${payment.dateOfDelivery}`),
-            React.createElement('hr')
-        )
-    );
+    // Funcție pentru calcularea prețului total al mașinilor dintr-un payment
+    const calculateTotalPrice = (cars) => {
+        return cars.reduce((total, car) => total + car.price, 0);
+    };
 
-    return React.createElement(
-        'div',
-        { className: 'car-history-container' },
-        React.createElement('h2', { className: 'car-history-header' }, 'Istoric Comenzi'),
-        React.createElement(
-            'div',
-            { className: 'payment-list' },
-            paymentItems.length > 0 ? paymentItems : React.createElement('p', null, 'Nu există plăți înregistrate.')
-        )
+    return (
+        <div className="car-history-container">
+            <h2 className="car-history-header">Istoric Comenzi</h2>
+            <div className="payment-list">
+                {payments.length > 0 ? (
+                    payments.map((payment) => (
+                        <div key={payment.idPayment} className="payment-item">
+                            <p>Adresa de livrare: {payment.shippingAddress}</p>
+                            <p>Data livrării: {payment.dateOfDelivery}</p>
+                            <hr />
+                            <h4>Mașini din comandă:</h4>
+                            <div className="car-list">
+                                {payment.cars.length > 0 ? (
+                                    payment.cars.map((car) => (
+                                        <div key={car.idCar} className="car-item">
+                                            <div className="car-image">
+                                                {car.imageUrl ? (
+                                                    <img src={car.imageUrl} alt={car.model} />
+                                                ) : (
+                                                    <p>Imagine indisponibilă</p>
+                                                )}
+                                            </div>
+                                            <div className="car-info">
+                                                <h3>{car.model}</h3>
+                                                <p>Kilometers: {car.kilometers}</p>
+                                                <p>Release Date: {car.releaseDate}</p>
+                                                <p>Vehicle Type: {car.vehicleType}</p>
+                                                <p>Price: {car.price} €</p>
+                                                <p>Color: {car.color}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>Nu există mașini asociate acestei plăți.</p>
+                                )}
+                            </div>
+                            {/* Preț total pentru acest payment */}
+                            <h4>Preț Total: {calculateTotalPrice(payment.cars)} €</h4>
+                        </div>
+                    ))
+                ) : (
+                    <p>Nu există plăți înregistrate.</p>
+                )}
+            </div>
+        </div>
     );
 }
 

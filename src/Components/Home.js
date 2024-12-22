@@ -42,6 +42,7 @@ function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
     const handleGoToViewCart = () => {
         navigate('/view-cart');
     };
+    const handleGoToFavorites = () => navigate('/favorites');
 
     return (
         <div className="home">
@@ -55,6 +56,7 @@ function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
                 <div className="button-group">
                     {!isAuthenticated && (
                         <>
+                            <button onClick={handleGoToCarList}>Vezi Lista de Mașini</button>
                             <button onClick={handleGoToShowRoomList}>Vezi Showroom-uri</button>
                             <button onClick={handleGoToLogIn}>Creare Cont/Autentificare</button>
                         </>
@@ -66,6 +68,7 @@ function Home({isAuthenticated, userRole, setAuthenticated, setUserRole}) {
                             <button onClick={handleGoToDataManagement}>Vezi Date Personale</button>
                             <button onClick={handleGoToCarHistory}>Istoric Comenzi</button>
                             <button onClick={handleGoToViewCart}>Vezi Cosul</button>
+                            <button onClick={handleGoToFavorites}>Favorite</button>
                         </>
                     )}
 

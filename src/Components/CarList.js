@@ -8,13 +8,18 @@ import car3 from '../assets/images/car3.jpg';
 import car4 from '../assets/images/car4.jpg';
 import car5 from '../assets/images/car5.jpg';
 
-// Imagini locale fallback
 const carImages = [car1, car2, car3, car4, car5];
 
 function CarList({ setViewCarList }) {
     const [cars, setCars] = useState([]);
+    const [filteredCars, setFilteredCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [filters, setFilters] = useState({
+        model: '',
+        maxPrice: '',
+        maxKilometers: '',
+    });
 
     useEffect(() => {
         setViewCarList(true);
@@ -28,12 +33,12 @@ function CarList({ setViewCarList }) {
             })
             .then(data => {
                 console.log("Date primite din backend:", data);
-                // Combină datele cu fallback-ul pentru imagini
                 const carsWithImages = data.map((car, index) => ({
                     ...car,
                     imageUrl: car.imageUrl || (index < carImages.length ? carImages[index] : null),
                 }));
                 setCars(carsWithImages);
+                setFilteredCars(carsWithImages);
             })
             .catch(error => {
                 console.error("Eroare:", error);
@@ -43,6 +48,30 @@ function CarList({ setViewCarList }) {
                 setLoading(false);
             });
     }, [setViewCarList]);
+
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const applyFilters = () => {
+        const { model, maxPrice, maxKilometers } = filters;
+        let filtered = cars;
+
+        if (model) {
+            filtered = filtered.filter(car => car.model.toLowerCase().includes(model.toLowerCase()));
+        }
+
+        if (maxPrice) {
+            filtered = filtered.filter(car => car.price <= parseInt(maxPrice, 10));
+        }
+
+        if (maxKilometers) {
+            filtered = filtered.filter(car => car.kilometers <= parseInt(maxKilometers, 10));
+        }
+
+        setFilteredCars(filtered);
+    };
 
     if (loading) {
         return <p>Se încarcă lista de mașini...</p>;
@@ -55,13 +84,42 @@ function CarList({ setViewCarList }) {
     return (
         <div>
             <h2>Mașinile Disponibile</h2>
+            <div className="filter-container">
+                <select
+                    name="model"
+                    value={filters.model}
+                    onChange={handleFilterChange}
+                >
+                    <option value="">Toate modelele</option>
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Mercedes">Mercedes</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                </select>
+                <input
+                    type="number"
+                    name="maxPrice"
+                    placeholder="Preț maxim"
+                    value={filters.maxPrice}
+                    onChange={handleFilterChange}
+                />
+                <input
+                    type="number"
+                    name="maxKilometers"
+                    placeholder="Kilometri maxim"
+                    value={filters.maxKilometers}
+                    onChange={handleFilterChange}
+                />
+                <button onClick={applyFilters}>Aplică Filtre</button>
+            </div>
             <div className="car-list">
-                {cars.length > 0 ? (
-                    cars.map((car, index) => (
+                {filteredCars.length > 0 ? (
+                    filteredCars.map((car, index) => (
                         <CarItem key={index} car={car} viewCarList={true} />
                     ))
                 ) : (
-                    <p>Nu există mașini disponibile.</p>
+                    <p>Nu există mașini disponibile care să respecte criteriile.</p>
                 )}
             </div>
         </div>
