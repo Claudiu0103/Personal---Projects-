@@ -29,26 +29,20 @@ public class PaymentService {
         return paymentRepository.save(payment);
     }
 
-    // Obține toate Payments
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
     }
 
-    // Calculează data de livrare
     public String calculateDeliveryDate() {
         return LocalDate.now().plusWeeks(2).toString();
     }
 
-    // Găsește toate Payments asociate coșurilor unui client
     public List<Payment> getPaymentsByUserId(Integer userId) {
-        // Găsește clientul
         Client client = clientRepository.findByIdUser(userId)
                 .orElseThrow(() -> new IllegalStateException("Client not found for user ID: " + userId));
-
-        // Returnează toate payments asociate coșurilor clientului
         return client.getCarts().stream()
                 .map(paymentRepository::findByCart)
-                .flatMap(Optional::stream) // Filtrează Payments existente
+                .flatMap(Optional::stream)
                 .collect(Collectors.toList());
     }
 
