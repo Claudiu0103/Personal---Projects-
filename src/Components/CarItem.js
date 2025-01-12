@@ -1,7 +1,5 @@
-import React from 'react';
-
-function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart}) {
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
+function CarItem({ car, viewCarList, handleRemoveFromCart, isViewCart }) {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"; // Verifică autentificarea
 
     const handleAddToCart = () => {
         const userId = localStorage.getItem('idUser');
@@ -65,7 +63,6 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart}) {
             });
     };
 
-
     const handleAddToFavorites = () => {
         const userId = localStorage.getItem('idUser');
         if (!userId) {
@@ -107,12 +104,11 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart}) {
             });
     };
 
-
     return (
         <div className="car-item">
             <div className="car-image">
                 {car.imageUrl ? (
-                    <img src={car.imageUrl} alt={car.model}/>
+                    <img src={car.imageUrl} alt={car.model} />
                 ) : (
                     <p>Imagine indisponibilă</p>
                 )}
@@ -125,20 +121,22 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart}) {
                 <p>Price: {car.price} €</p>
                 <p>Color: {car.color}</p>
 
-                {viewCarList && (
+                {isAuthenticated && viewCarList && (
                     <div className="button-group2">
                         <button className="button" onClick={handleAddToCart}>
                             Adaugă în coș
                             <svg className="cartIcon" viewBox="0 0 576 512">
                                 <path
-                                    d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path>
+                                    d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"
+                                ></path>
                             </svg>
                         </button>
                         <button className="button" onClick={handleAddToFavorites}>
                             Adaugă la favorite
                             <svg className="cartIcon" viewBox="0 0 576 512">
                                 <path
-                                    d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36-17.7 54.6l105.7 103L120.6 470c-4.5 26.3 23 46 46.4 33.7L288 405.3l121 98.4c23.4 12.2 50.9-7.4 46.4-33.7l-15.2-140.9 105.7-103c19-18.6 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"></path>
+                                    d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36-17.7 54.6l105.7 103L120.6 470c-4.5 26.3 23 46 46.4 33.7L288 405.3l121 98.4c23.4 12.2 50.9-7.4 46.4-33.7l-15.2-140.9 105.7-103c19-18.6 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z"
+                                ></path>
                             </svg>
                         </button>
                     </div>
@@ -150,7 +148,6 @@ function CarItem({car, viewCarList, handleRemoveFromCart, isViewCart}) {
             </div>
         </div>
     );
-
 }
 
 export default CarItem;
